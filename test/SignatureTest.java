@@ -1,5 +1,5 @@
-import utility.Signature;
 import org.junit.Test;
+import utility.Signature;
 
 import static org.junit.Assert.assertEquals;
 

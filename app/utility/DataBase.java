@@ -2,6 +2,7 @@ package utility;
 
 import com.avaje.ebean.Ebean;
 import models.Link;
+
 import java.util.List;
 
 public final class DataBase {

@@ -7,9 +7,6 @@ import play.mvc.Result;
 import utility.DataBase;
 import utility.RandomGeneration;
 import utility.Signature;
-import views.html.defaultpages.error;
-
-import java.util.Arrays;
 
 public class ShortUrl extends Controller {
 
