@@ -20,14 +20,14 @@ public class FullTest {
                 String code = response.asJson().findPath("url_short").toString().replace("\"", "");
                 assertEquals("Must return HTTP 200", 200, response.getStatus());
                 assertEquals("Response body must be in JSON", "application/json", response.getHeader("Content-Type"));
-                assertTrue("Short URL must be 5 symbols large", code.length() >= 5);
+                assertTrue("Short URL must be 5 symbols or longer", code.length() >= 5);
 
                 response = WS.url("http://localhost:3333/" + code)
                              .setFollowRedirects(false)
                              .get().get();
-                assertEquals("On existed code must return HTTP 301", 301, response.getStatus());
-                assertEquals("On existed code must return Moved Permanently", "Moved Permanently", response.getStatusText());
-                assertEquals("On existed code header Location must exist", "https://twitter.com/artemnikitin", response.getHeader("Location"));
+                assertEquals("Must return HTTP 301", 301, response.getStatus());
+                assertEquals("Must return header Moved Permanently", "Moved Permanently", response.getStatusText());
+                assertEquals("Header Location must exist and contain right URL", "https://twitter.com/artemnikitin", response.getHeader("Location"));
             }
         });
     }
