@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class FullTest extends Server {
 
     @Test
-    public void fullScenarioFlowPositive(){
+    public void fullScenarioFlowPositive() {
         WS.Response response = WS.url("http://localhost:3333/")
                 .setContentType("application/json")
                 .post("{\"url\":\"https://twitter.com/artemnikitin\"}").get();

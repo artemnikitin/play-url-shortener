@@ -14,7 +14,7 @@ import static play.test.Helpers.*;
 public class ShortUrlTest extends FakeTestEnvironment {
 
     @Test
-    public void getShortUrlForUnExistedUrl(){
+    public void getShortUrlForUnExistedUrl() {
         Result response = callAction(
                 controllers.routes.ref.ShortUrl.makeShort(),
                 new FakeRequest(POST, "/")
@@ -31,7 +31,7 @@ public class ShortUrlTest extends FakeTestEnvironment {
     }
 
     @Test
-    public void getShortUrlWithWrongBody(){
+    public void getShortUrlWithWrongBody() {
         Result response = callAction(
                 controllers.routes.ref.ShortUrl.makeShort(),
                 new FakeRequest(POST, "/").withJsonBody(Json.newObject().put("", "")));
@@ -46,7 +46,7 @@ public class ShortUrlTest extends FakeTestEnvironment {
     }
 
     @Test
-    public void getUrlForExistedUrl(){
+    public void getUrlForExistedUrl() {
         Result response = callAction(
                 controllers.routes.ref.ShortUrl.makeShort(),
                 new FakeRequest(POST, "/").withJsonBody(
@@ -58,6 +58,5 @@ public class ShortUrlTest extends FakeTestEnvironment {
         assertEquals("Short URL must be exact 'abc'", "abc",
                 json.findPath("url_short").toString().replace("\"", ""));
     }
-
 
 }

@@ -11,7 +11,7 @@ import static play.test.Helpers.*;
 public class FullUrlTest extends FakeTestEnvironment {
 
     @Test
-    public void getUrlForUnexistedCode(){
+    public void getUrlForUnexistedCode() {
         Result response = callAction(controllers.routes.ref.FullUrl.redirectTo("2312313"));
         assertEquals("On unexisted code must return HTTP 400", 400, status(response));
         assertTrue("Text not equal to text in controller",
@@ -19,7 +19,7 @@ public class FullUrlTest extends FakeTestEnvironment {
     }
 
     @Test
-    public void getUrlForExistedCode(){
+    public void getUrlForExistedCode() {
         Result response = callAction(controllers.routes.ref.FullUrl.redirectTo("abc"));
         assertEquals("On existed code must return HTTP 301", 301, status(response));
         assertEquals("On existed code header Location must exist",
