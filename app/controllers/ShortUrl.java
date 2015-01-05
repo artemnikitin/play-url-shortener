@@ -8,8 +8,6 @@ import utility.DataBase;
 import utility.RandomGeneration;
 import utility.Signature;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 
 public class ShortUrl extends Controller {
@@ -20,7 +18,7 @@ public class ShortUrl extends Controller {
         Logger.info("URL: " + url);
         if(url.equals("")){
             Logger.error("Error happened when trying parse body as JSON or JSON malformed");
-            return badRequest("{\"url_short\":\"\",\"error\":\"1\"}");
+            return badRequest("{\"url_short\":\"\", \"error\":\"1\"}");
         } else{
             Signature signature = new Signature(url);
             String token = signature.calculate();
@@ -34,35 +32,28 @@ public class ShortUrl extends Controller {
                 Logger.info("URL not exist, shortUrl: " + shortUrl);
                 DataBase.insertUrl(token, url, shortUrl);
             }
-            return ok("{\"url_short\":\"" + shortUrl + "\",\"error\":\"0\"}");
+            return ok("{\"url_short\":\"" + shortUrl + "\", \"error\":\"0\"}");
         }
     }
 
     private static String getUrlFromBody(Http.Request request) {
         try {
-            String result = request.body().asJson().findPath("url").toString().replace("\"", "");
-            return URLEncoder.encode(result, "UTF-8");
+            return request.body().asJson().findPath("url").toString().replace("\"", "");
         } catch(NullPointerException e) {
             Logger.error("Malformed JSON detected! ", Arrays.toString(e.getStackTrace()));
-            return "";
-        } catch (UnsupportedEncodingException e) {
-            Logger.error("Error happened when trying to Url encode link ", Arrays.toString(e.getStackTrace()));
             return "";
         }
     }
 
     private static String getShortUrl(String token){
-        String result;
-        result = DataBase.getShortUrlByToken(token);
+        String result = DataBase.getShortUrlByToken(token);
         if(result.equals("")) {
             result = RandomGeneration.randomString(5);
-            while( !DataBase.checkUnique(result) ){
+            while(!DataBase.checkUnique(result)){
                 result = RandomGeneration.randomString(5);
             }
-            return result;
-        } else{
-            return result;
         }
+        return result;
     }
 
 }

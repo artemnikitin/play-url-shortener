@@ -27,11 +27,7 @@ public final class DataBase {
 
     public static boolean checkTargetUrlExist(String url){
         List<Link> link = Link.find.where().eq("url_target", url).findList();
-        if(link.size() > 0) {
-            return true;
-        }else{
-            return false;
-        }
+        return link.size() > 0;
     }
 
     public static void insertUrl(String token, String url_target, String url_short){
@@ -44,11 +40,7 @@ public final class DataBase {
 
     public static boolean checkUnique(String code){
         List<Link> link = Link.find.where().eq("url_short", code).findList();
-        if(link.size() > 0) {
-            return false;
-        }else{
-            return true;
-        }
+        return link.size() == 0;
     }
 
 }
