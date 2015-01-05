@@ -1,36 +1,29 @@
 package controllers;
 
+import support.FakeTestEnvironment;
 import org.junit.Test;
-import play.libs.WS;
+import play.mvc.Result;
 
 import static org.junit.Assert.assertEquals;
-import static play.test.Helpers.running;
-import static play.test.Helpers.testServer;
+import static org.junit.Assert.assertTrue;
+import static play.test.Helpers.*;
 
-public class FullUrlTest {
+public class FullUrlTest extends FakeTestEnvironment {
 
     @Test
     public void getUrlForUnexistedCode(){
-        running(testServer(3333), new Runnable() {
-            public void run() {
-                WS.Response response = WS.url("http://localhost:3333/2312313").get().get();
-                assertEquals("On unexisted code must return HTTP 400", 400, response.getStatus());
-                assertEquals("On unexisted code must return Bad Request", "Bad Request", response.getStatusText());
-                assertEquals("Text not equal to text in controller", "URL not find! Please check that your submit.", response.getBody());
-            }
-        });
+        Result response = callAction(controllers.routes.ref.FullUrl.redirectTo("2312313"));
+        assertEquals("On unexisted code must return HTTP 400", 400, status(response));
+        assertTrue("Text not equal to text in controller",
+            contentAsString(response).contains("URL not find! Please check that your submit."));
     }
 
     @Test
     public void getUrlForExistedCode(){
-        running(testServer(3333), new Runnable() {
-            public void run() {
-                WS.Response response = WS.url("http://localhost:3333/abc").setFollowRedirects(false).get().get();
-                assertEquals("On existed code must return HTTP 301", 301, response.getStatus());
-                assertEquals("On existed code must return Moved Permanently", "Moved Permanently", response.getStatusText());
-                assertEquals("On existed code header Location must exist", "http://www.linkedin.com/in/artemnikitin", response.getHeader("Location"));
-            }
-        });
+        Result response = callAction(controllers.routes.ref.FullUrl.redirectTo("abc"));
+        assertEquals("On existed code must return HTTP 301", 301, status(response));
+        assertEquals("On existed code header Location must exist",
+                "http://www.linkedin.com/in/artemnikitin", redirectLocation(response));
     }
 
 
