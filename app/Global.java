@@ -3,15 +3,13 @@ import play.libs.F;
 import play.mvc.Http;
 import play.mvc.SimpleResult;
 
-import static play.mvc.Results.badRequest;
-import static play.mvc.Results.internalServerError;
-import static play.mvc.Results.redirect;
+import static play.mvc.Results.*;
 
 public class Global extends GlobalSettings {
 
     @Override
     public F.Promise<SimpleResult> onHandlerNotFound(Http.RequestHeader request) {
-        return F.Promise.pure(redirect("/app/about"));
+        return F.Promise.pure(notFound("Requested URL not found!"));
     }
 
     @Override

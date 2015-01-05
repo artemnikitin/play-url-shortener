@@ -12,7 +12,7 @@ public class FullUrl extends Controller {
             return badRequest("URL not find! Please check that your submit.");
         } else {
             response().setHeader("Location", url);
-            return movedPermanently("");
+            return movedPermanently("GO TO: " + url);
         }
     }
 

@@ -8,6 +8,10 @@ import utility.DataBase;
 import utility.RandomGeneration;
 import utility.Signature;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Arrays;
+
 public class ShortUrl extends Controller {
 
     public static Result makeShort(){
@@ -36,11 +40,14 @@ public class ShortUrl extends Controller {
 
     private static String getUrlFromBody(Http.Request request) {
         try {
-            return request.body().asJson().findPath("url").toString().replace("\"", "");
-        } catch(Exception e) {
-            e.printStackTrace();
-            Logger.error("Malformed JSON detected!");
-            throw new NullPointerException();
+            String result = request.body().asJson().findPath("url").toString().replace("\"", "");
+            return URLEncoder.encode(result, "UTF-8");
+        } catch(NullPointerException e) {
+            Logger.error("Malformed JSON detected! ", Arrays.toString(e.getStackTrace()));
+            return "";
+        } catch (UnsupportedEncodingException e) {
+            Logger.error("Error happened when trying to Url encode link ", Arrays.toString(e.getStackTrace()));
+            return "";
         }
     }
 
