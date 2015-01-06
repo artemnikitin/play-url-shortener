@@ -5,6 +5,6 @@ This is simple URL shortener application. It can create short URL from long, kee
 
 Requirements
 ------------
-Installing Play Framework 2.2.1+
-You can download it from here http://www.playframework.com/download
+Installing Play Framework 2.2+ (You can download it from here http://www.playframework.com/download)
+
 Installation instructions pretty simple and can be found here http://www.playframework.com/documentation/2.2.x/Installing
